@@ -1,5 +1,5 @@
 //
-// main.m
+// ExampleViewController.h
 // DGCommand
 //
 // Copyright (c) 2014 Devin Gund. All rights reserved.
@@ -26,10 +26,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AppDelegate.h"
+@interface ExampleViewController : UIViewController
 
-int main(int argc, char * argv[]) {
-	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-	}
-}
+@property (nonatomic, retain) IBOutlet UITextField *textField;
+
+- (IBAction)btnSave:(id)sender;
+- (IBAction)doneEditing:(id)sender;
+
+@end

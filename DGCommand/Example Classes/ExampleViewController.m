@@ -1,5 +1,5 @@
 //
-// main.m
+// ExampleViewController.m
 // DGCommand
 //
 // Copyright (c) 2014 Devin Gund. All rights reserved.
@@ -24,12 +24,27 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "ExampleViewController.h"
+#import "DGCommand.h"
 
-#import "AppDelegate.h"
+@implementation ExampleViewController
 
-int main(int argc, char * argv[]) {
-	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-	}
+@synthesize textField;
+
+- (IBAction)btnSave:(id)sender {
+	if (![self.textField text]) [self.textField setText:@""];
+	[[DGCommand sharedCommand] setObject:[self.textField text] forKey:@"_textfield" retained:YES];
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Saved" message:[textField text] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alertView show];
 }
+
+- (IBAction)doneEditing:(id)sender {
+	[textField resignFirstResponder];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.textField setText:[[DGCommand sharedCommand] objectForKey:@"_textfield"]];
+}
+
+@end

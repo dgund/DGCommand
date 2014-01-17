@@ -1,5 +1,5 @@
 //
-// main.m
+// AppDelegate.m
 // DGCommand
 //
 // Copyright (c) 2014 Devin Gund. All rights reserved.
@@ -24,12 +24,32 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "AppDelegate.h"
+#import "DGCommand.h"
+#import "ExampleViewController.h"
 
-int main(int argc, char * argv[]) {
-	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-	}
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	[[DGCommand sharedCommand] restoreFromFile:@"Saved_Data.plist"];
+	ExampleViewController *exampleView = [[ExampleViewController alloc] init];
+	self.window.rootViewController = exampleView;
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    return YES;
 }
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+	[[DGCommand sharedCommand] saveToFile:@"Saved_Data.plist"];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+	[[DGCommand sharedCommand] restoreFromFile:@"Saved_Data.plist"];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+	[[DGCommand sharedCommand] saveToFile:@"Saved_Data.plist"];
+}
+
+@end
