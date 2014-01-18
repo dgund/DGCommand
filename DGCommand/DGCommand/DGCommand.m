@@ -37,12 +37,12 @@
 
 #pragma mark - Singleton Initializer
 + (id)sharedCommand {
-	static DGCommand *sharedCommand = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		sharedCommand = [[self alloc] init];
-	});
-	return sharedCommand;
+    static DGCommand *sharedCommand = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+	sharedCommand = [[self alloc] init];
+    });
+    return sharedCommand;
 }
 
 #pragma mark - Initializers
@@ -52,19 +52,19 @@
 
 - (id)initFromFile:(NSString *)fileName {
     self = [super init];
-	if (self) {
+    if (self) {
         _container = [[NSMutableDictionary alloc] init];
-		[self restoreFromFile:fileName];
-	}
+	[self restoreFromFile:fileName];
+    }
     return self;
 }
 
 + (instancetype)command {
-	return [[self alloc] init];
+    return [[self alloc] init];
 }
 
 + (instancetype)commandFromFile:(NSString *)fileName {
-	return [[self alloc] initFromFile:fileName];
+    return [[self alloc] initFromFile:fileName];
 }
 
 #pragma mark - Setting Objects
@@ -72,19 +72,19 @@
     [self removeObjectForKey:key];
     if (!object) return;
 	if (retained) {
-		// Only the following objects may be saved to a plist
+	// Only the following objects may be saved to a plist
         if ([object isKindOfClass:[NSArray class]] ||
             [object isKindOfClass:[NSDictionary class]] ||
             [object isKindOfClass:[NSData class]] ||
             [object isKindOfClass:[NSString class]] ||
             [object isKindOfClass:[NSNumber class]] ||
             [object isKindOfClass:[NSDate class]]) {
-			[self.retainer setObject:object forKey:key];
-			return;
-		}
-		NSLog(@"DGCommand: object type cannot be saved to a .plist and will not be retained");
+	    [self.retainer setObject:object forKey:key];
+	    return;
 	}
-	[self.container setObject:object forKey:key];
+	NSLog(@"DGCommand: object type cannot be saved to a .plist and will not be retained");
+    }
+    [self.container setObject:object forKey:key];
 }
 
 - (void)setInt:(int)number forKey:(NSString *)key retained:(BOOL)retained {
@@ -149,7 +149,7 @@
 
 #pragma mark - Getting Objects
 - (id)objectForKey:(NSString *)key {
-	return [self.retainer objectForKey:key] ? : [self.container objectForKey:key];
+    return [self.retainer objectForKey:key] ? : [self.container objectForKey:key];
 }
 
 - (int)intForKey:(NSString *)key {
@@ -238,23 +238,23 @@
 
 #pragma mark - Saving and Restoring State
 - (void)saveToFile:(NSString *)fileName {
-	@try {
-		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-		[self.retainer writeToFile:[dir stringByAppendingPathComponent:fileName] atomically:YES];
-	}
-	@catch (NSException *exception) {
-		NSLog(@"DGCommand: error in writing to file. %@",exception);
-	}
+    @try {
+	NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	[self.retainer writeToFile:[dir stringByAppendingPathComponent:fileName] atomically:YES];
+    }
+    @catch (NSException *exception) {
+	NSLog(@"DGCommand: error in writing to file. %@",exception);
+    }
 }
 
 - (void)restoreFromFile:(NSString *)fileName {
-	@try {
-		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-		self.retainer = [NSMutableDictionary dictionaryWithContentsOfFile:[dir stringByAppendingPathComponent:fileName]] ? : [NSMutableDictionary dictionary];
-	}
-	@catch (NSException *exception) {
-		NSLog(@"DGCommand: error in reading from file. %@",exception);
-	}
+    @try {
+	NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	self.retainer = [NSMutableDictionary dictionaryWithContentsOfFile:[dir stringByAppendingPathComponent:fileName]] ? : [NSMutableDictionary dictionary];
+    }
+    @catch (NSException *exception) {
+	NSLog(@"DGCommand: error in reading from file. %@",exception);
+    }
 }
 
 #pragma mark - NSCopying Protocol
