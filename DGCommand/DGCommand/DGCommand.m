@@ -37,239 +37,239 @@
 
 #pragma mark - Singleton Initializer
 + (id)sharedCommand {
-    static DGCommand *sharedCommand = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-	sharedCommand = [[self alloc] init];
-    });
-    return sharedCommand;
+	static DGCommand *sharedCommand = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sharedCommand = [[self alloc] init];
+	});
+	return sharedCommand;
 }
 
 #pragma mark - Initializers
 - (id)init {
-    return [self initFromFile:nil];
+	return [self initFromFile:nil];
 }
 
 - (id)initFromFile:(NSString *)fileName {
-    self = [super init];
-    if (self) {
-        _container = [[NSMutableDictionary alloc] init];
-	[self restoreFromFile:fileName];
-    }
-    return self;
+	self = [super init];
+	if (self) {
+		_container = [[NSMutableDictionary alloc] init];
+		[self restoreFromFile:fileName];
+	}
+	return self;
 }
 
 + (instancetype)command {
-    return [[self alloc] init];
+	return [[self alloc] init];
 }
 
 + (instancetype)commandFromFile:(NSString *)fileName {
-    return [[self alloc] initFromFile:fileName];
+	return [[self alloc] initFromFile:fileName];
 }
 
 #pragma mark - Setting Objects
 - (void)setObject:(id)object forKey:(NSString *)key retained:(BOOL)retained {
-    [self removeObjectForKey:key];
-    if (!object) return;
+	[self removeObjectForKey:key];
+	if (!object) return;
 	if (retained) {
 		// Only the following objects may be saved to a plist
-    	if ([object isKindOfClass:[NSArray class]] ||
-            [object isKindOfClass:[NSDictionary class]] ||
-            [object isKindOfClass:[NSData class]] ||
-            [object isKindOfClass:[NSString class]] ||
-            [object isKindOfClass:[NSNumber class]] ||
-            [object isKindOfClass:[NSDate class]]) {
-	    	[self.retainer setObject:object forKey:key];
-	    	return;
+		if ([object isKindOfClass:[NSArray class]] ||
+			[object isKindOfClass:[NSDictionary class]] ||
+			[object isKindOfClass:[NSData class]] ||
+			[object isKindOfClass:[NSString class]] ||
+			[object isKindOfClass:[NSNumber class]] ||
+			[object isKindOfClass:[NSDate class]]) {
+			[self.retainer setObject:object forKey:key];
+			return;
 		}
 		NSLog(@"DGCommand: object type cannot be saved to a .plist and will not be retained");
-    }
-    [self.container setObject:object forKey:key];
+	}
+	[self.container setObject:object forKey:key];
 }
 
 - (void)setInt:(int)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithInt:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithInt:number] forKey:key retained:retained];
 }
 
 - (void)setShort:(short)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithShort:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithShort:number] forKey:key retained:retained];
 }
 
 - (void)setLong:(long)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithLong:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithLong:number] forKey:key retained:retained];
 }
 
 - (void)setLongLong:(long long)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithLongLong:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithLongLong:number] forKey:key retained:retained];
 }
 
 - (void)setFloat:(float)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithFloat:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithFloat:number] forKey:key retained:retained];
 }
 
 - (void)setDouble:(double)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithDouble:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithDouble:number] forKey:key retained:retained];
 }
 
 - (void)setChar:(char)character forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithChar:character] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithChar:character] forKey:key retained:retained];
 }
 
 - (void)setBool:(BOOL)boolean forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithBool:boolean] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithBool:boolean] forKey:key retained:retained];
 }
 
 - (void)setInteger:(NSInteger)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithInteger:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithInteger:number] forKey:key retained:retained];
 }
 
 - (void)setUnsignedInt:(unsigned int)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithUnsignedInt:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithUnsignedInt:number] forKey:key retained:retained];
 }
 
 - (void)setUnsignedShort:(unsigned short)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithUnsignedShort:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithUnsignedShort:number] forKey:key retained:retained];
 }
 
 - (void)setUnsignedLong:(unsigned long)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithUnsignedLong:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithUnsignedLong:number] forKey:key retained:retained];
 }
 
 - (void)setUnsignedLongLong:(unsigned long long)number forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithUnsignedLongLong:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithUnsignedLongLong:number] forKey:key retained:retained];
 }
 
 - (void)setUnsignedChar:(unsigned char)character forKey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithUnsignedChar:character] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithUnsignedChar:character] forKey:key retained:retained];
 }
 
 - (void)setUnsignedInteger:(NSUInteger)number forkey:(NSString *)key retained:(BOOL)retained {
-    [self setObject:[NSNumber numberWithUnsignedInteger:number] forKey:key retained:retained];
+	[self setObject:[NSNumber numberWithUnsignedInteger:number] forKey:key retained:retained];
 }
 
 #pragma mark - Getting Objects
 - (id)objectForKey:(NSString *)key {
-    return [self.retainer objectForKey:key] ? : [self.container objectForKey:key];
+	return [self.retainer objectForKey:key] ? : [self.container objectForKey:key];
 }
 
 - (int)intForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] intValue];
+	return [(NSNumber *)[self objectForKey:key] intValue];
 }
 
 - (short)shortForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] shortValue];
+	return [(NSNumber *)[self objectForKey:key] shortValue];
 }
 
 - (long)longForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] longValue];
+	return [(NSNumber *)[self objectForKey:key] longValue];
 }
 
 - (long long)longLongForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] longLongValue];
+	return [(NSNumber *)[self objectForKey:key] longLongValue];
 }
 
 - (float)floatForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] floatValue];
+	return [(NSNumber *)[self objectForKey:key] floatValue];
 }
 
 - (double)doubleForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] doubleValue];
+	return [(NSNumber *)[self objectForKey:key] doubleValue];
 }
 
 - (char)charForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] charValue];
+	return [(NSNumber *)[self objectForKey:key] charValue];
 }
 
 - (BOOL)boolForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] boolValue];
+	return [(NSNumber *)[self objectForKey:key] boolValue];
 }
 
 - (NSInteger)integerForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] integerValue];
+	return [(NSNumber *)[self objectForKey:key] integerValue];
 }
 
 - (unsigned int)unsignedIntForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] unsignedIntValue];
+	return [(NSNumber *)[self objectForKey:key] unsignedIntValue];
 }
 
 - (unsigned short)unsignedShortForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] unsignedShortValue];
+	return [(NSNumber *)[self objectForKey:key] unsignedShortValue];
 }
 
 - (unsigned long)unsignedLongForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] unsignedLongValue];
+	return [(NSNumber *)[self objectForKey:key] unsignedLongValue];
 }
 
 - (unsigned long long)unsignedLongLongForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] unsignedLongLongValue];
+	return [(NSNumber *)[self objectForKey:key] unsignedLongLongValue];
 }
 
 - (unsigned char)unsignedCharForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] unsignedCharValue];
+	return [(NSNumber *)[self objectForKey:key] unsignedCharValue];
 }
 
 - (NSUInteger)unsignedIntegerForKey:(NSString *)key {
-    return [(NSNumber *)[self objectForKey:key] unsignedIntegerValue];
+	return [(NSNumber *)[self objectForKey:key] unsignedIntegerValue];
 }
 
 #pragma mark - Checking for Objects
 - (BOOL)objectExistsForKey:(NSString *)key {
-    return [self.retainer objectForKey:key] || [self.container objectForKey:key];
+	return [self.retainer objectForKey:key] || [self.container objectForKey:key];
 }
 
 #pragma mark - Removing Objects
 - (void)removeObjectForKey:(NSString *)key {
-    [self.retainer removeObjectForKey:key];
-    [self.container removeObjectForKey:key];
+	[self.retainer removeObjectForKey:key];
+	[self.container removeObjectForKey:key];
 }
 
 - (void)removeUnretainedObjects {
-    [self.container removeAllObjects];
+	[self.container removeAllObjects];
 }
 
 - (void)removeRetainedObjects {
-    [self.retainer removeAllObjects];
+	[self.retainer removeAllObjects];
 }
 
 - (void)removeAllObjects {
-    [self removeUnretainedObjects];
-    [self removeRetainedObjects];
+	[self removeUnretainedObjects];
+	[self removeRetainedObjects];
 }
 
 #pragma mark - Saving and Restoring State
 - (void)saveToFile:(NSString *)fileName {
-    @try {
-	NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	[self.retainer writeToFile:[dir stringByAppendingPathComponent:fileName] atomically:YES];
-    }
-    @catch (NSException *exception) {
-	NSLog(@"DGCommand: error in writing to file. %@",exception);
-    }
+	@try {
+		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		[self.retainer writeToFile:[dir stringByAppendingPathComponent:fileName] atomically:YES];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"DGCommand: error in writing to file. %@",exception);
+	}
 }
 
 - (void)restoreFromFile:(NSString *)fileName {
-    @try {
-	NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	self.retainer = [NSMutableDictionary dictionaryWithContentsOfFile:[dir stringByAppendingPathComponent:fileName]] ? : [NSMutableDictionary dictionary];
-    }
-    @catch (NSException *exception) {
-	NSLog(@"DGCommand: error in reading from file. %@",exception);
-    }
+	@try {
+		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		self.retainer = [NSMutableDictionary dictionaryWithContentsOfFile:[dir stringByAppendingPathComponent:fileName]] ? : [NSMutableDictionary dictionary];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"DGCommand: error in reading from file. %@",exception);
+	}
 }
 
 #pragma mark - NSCopying Protocol
 - (id)copyWithZone:(NSZone *)zone {
-    DGCommand *copyCommand = [[DGCommand alloc] init];
-    if (copyCommand) {
-        copyCommand.retainer = [self.retainer mutableCopyWithZone:zone];
-        copyCommand.container = [self.container mutableCopyWithZone:zone];
-    }
+	DGCommand *copyCommand = [[DGCommand alloc] init];
+	if (copyCommand) {
+		copyCommand.retainer = [self.retainer mutableCopyWithZone:zone];
+		copyCommand.container = [self.container mutableCopyWithZone:zone];
+	}
     return copyCommand;
 }
 
 #pragma mark - Dealloc
 - (void)dealloc {
-    [self removeAllObjects];
+	[self removeAllObjects];
 }
 
 @end
