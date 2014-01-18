@@ -31,17 +31,17 @@
 	@private NSMutableDictionary *_container;
 }
 
-// Singleton initializer
+#pragma mark - Singleton Initializer
 + (id)sharedCommand;
 
-// Initializers
+#pragma mark - Initializers
 - (id)init;
 - (id)initFromFile:(NSString *)fileName;
 + (instancetype)command;
 + (instancetype)commandFromFile:(NSString *)fileName;
 
-// Setting objects
-- (void)setObject:(NSObject *)object forKey:(NSString *)key retained:(BOOL)retained;
+#pragma mark - Setting Objects
+- (void)setObject:(id)object forKey:(NSString *)key retained:(BOOL)retained;
 - (void)setInt:(int)number forKey:(NSString *)key retained:(BOOL)retained;
 - (void)setShort:(short)number forKey:(NSString *)key retained:(BOOL)retained;
 - (void)setLong:(long)number forKey:(NSString *)key retained:(BOOL)retained;
@@ -58,7 +58,7 @@
 - (void)setUnsignedChar:(unsigned char)character forKey:(NSString *)key retained:(BOOL)retained;
 - (void)setUnsignedInteger:(NSUInteger)number forkey:(NSString *)key retained:(BOOL)retained;
 
-// Getting objects
+#pragma mark - Getting Objects
 - (id)objectForKey:(NSString *)key;
 - (int)intForKey:(NSString *)key;
 - (short)shortForKey:(NSString *)key;
@@ -76,16 +76,16 @@
 - (unsigned char)unsignedCharForKey:(NSString *)key;
 - (NSUInteger)unsignedIntegerForKey:(NSString *)key;
 
-// Checking for objects
+#pragma mark - Checking for Objects
 - (BOOL)objectExistsForKey:(NSString *)key;
 
-// Removing objects
+#pragma mark - Removing Objects
 - (void)removeObjectForKey:(NSString *)key;
 - (void)removeUnretainedObjects;
 - (void)removeRetainedObjects;
 - (void)removeAllObjects;
 
-// Saving and restoring state
+#pragma mark - Saving and Restoring State
 - (void)saveToFile:(NSString *)fileName;
 - (void)restoreFromFile:(NSString *)fileName;
 

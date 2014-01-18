@@ -35,7 +35,8 @@
 @synthesize retainer = _retainer;
 @synthesize container = _container;
 
-// Singleton initializer
+
+#pragma mark - Singleton Initializer
 + (id)sharedCommand {
 	static DGCommand *sharedCommand = nil;
 	static dispatch_once_t onceToken;
@@ -45,7 +46,7 @@
 	return sharedCommand;
 }
 
-// Initializers
+#pragma mark - Initializers
 - (id)init {
     return [self initFromFile:nil];
 }
@@ -67,10 +68,11 @@
 	return [[self alloc] initFromFile:fileName];
 }
 
-// Setting objects
-- (void)setObject:(NSObject *)object forKey:(NSString *)key retained:(BOOL)retained {
+#pragma mark - Setting Objects
+- (void)setObject:(id)object forKey:(NSString *)key retained:(BOOL)retained {
     [self removeObjectForKey:key];
-    if (retained) {
+    if (!object) return;
+	if (retained) {
 		// Only the following objects may be saved to a plist
         if ([object isKindOfClass:[NSArray class]] ||
             [object isKindOfClass:[NSDictionary class]] ||
@@ -146,7 +148,7 @@
     [self setObject:[NSNumber numberWithUnsignedInteger:number] forKey:key retained:retained];
 }
 
-// Getting objects
+#pragma mark - Getting Objects
 - (id)objectForKey:(NSString *)key {
 	return [self.retainer objectForKey:key] ? : [self.container objectForKey:key];
 }
@@ -211,12 +213,12 @@
     return [(NSNumber *)[self objectForKey:key] unsignedIntegerValue];
 }
 
-// Checking for objects
+#pragma mark - Checking for Objects
 - (BOOL)objectExistsForKey:(NSString *)key {
     return [self.retainer objectForKey:key] || [self.container objectForKey:key];
 }
 
-// Removing objects
+#pragma mark - Removing Objects
 - (void)removeObjectForKey:(NSString *)key {
     [self.retainer removeObjectForKey:key];
     [self.container removeObjectForKey:key];
@@ -235,7 +237,7 @@
 	[self removeRetainedObjects];
 }
 
-// Saving and restoring state
+#pragma mark - Saving and Restoring State
 - (void)saveToFile:(NSString *)fileName {
 	@try {
 		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -256,7 +258,7 @@
 	}
 }
 
-// NSCopying protocol
+#pragma mark - NSCopying Protocol
 - (id)copyWithZone:(NSZone *)zone {
     DGCommand *copyCommand = [[DGCommand alloc] init];
     if (copyCommand) {
@@ -266,7 +268,7 @@
     return copyCommand;
 }
 
-// Dealloc override
+#pragma mark - Dealloc
 - (void)dealloc {
     [self removeAllObjects];
 }
