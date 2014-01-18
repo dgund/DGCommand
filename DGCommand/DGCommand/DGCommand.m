@@ -80,7 +80,7 @@
             [object isKindOfClass:[NSDate class]]) {
 			[self.retainer setObject:object forKey:key];
 			return;
-        }
+		}
 		NSLog(@"DGCommand: object type cannot be saved to a .plist and will not be retained");
 	}
 	[self.container setObject:object forKey:key];
@@ -237,13 +237,23 @@
 
 // Saving and restoring state
 - (void)saveToFile:(NSString *)fileName {
-    NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    [self.retainer writeToFile:[dir stringByAppendingPathComponent:fileName] atomically:YES];
+	@try {
+		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		[self.retainer writeToFile:[dir stringByAppendingPathComponent:fileName] atomically:YES];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"DGCommand: error in writing to file. %@",exception);
+	}
 }
 
 - (void)restoreFromFile:(NSString *)fileName {
-    NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    self.retainer = [NSMutableDictionary dictionaryWithContentsOfFile:[dir stringByAppendingPathComponent:fileName]] ? : [NSMutableDictionary dictionary];
+	@try {
+		NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		self.retainer = [NSMutableDictionary dictionaryWithContentsOfFile:[dir stringByAppendingPathComponent:fileName]] ? : [NSMutableDictionary dictionary];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"DGCommand: error in reading from file. %@",exception);
+	}
 }
 
 // NSCopying protocol
