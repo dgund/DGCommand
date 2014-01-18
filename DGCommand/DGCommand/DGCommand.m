@@ -35,7 +35,6 @@
 @synthesize retainer = _retainer;
 @synthesize container = _container;
 
-
 #pragma mark - Singleton Initializer
 + (id)sharedCommand {
 	static DGCommand *sharedCommand = nil;
@@ -234,7 +233,7 @@
 
 - (void)removeAllObjects {
     [self removeUnretainedObjects];
-	[self removeRetainedObjects];
+    [self removeRetainedObjects];
 }
 
 #pragma mark - Saving and Restoring State
