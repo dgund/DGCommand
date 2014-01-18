@@ -72,17 +72,17 @@
     [self removeObjectForKey:key];
     if (!object) return;
 	if (retained) {
-	// Only the following objects may be saved to a plist
-        if ([object isKindOfClass:[NSArray class]] ||
+		// Only the following objects may be saved to a plist
+    	if ([object isKindOfClass:[NSArray class]] ||
             [object isKindOfClass:[NSDictionary class]] ||
             [object isKindOfClass:[NSData class]] ||
             [object isKindOfClass:[NSString class]] ||
             [object isKindOfClass:[NSNumber class]] ||
             [object isKindOfClass:[NSDate class]]) {
-	    [self.retainer setObject:object forKey:key];
-	    return;
-	}
-	NSLog(@"DGCommand: object type cannot be saved to a .plist and will not be retained");
+	    	[self.retainer setObject:object forKey:key];
+	    	return;
+		}
+		NSLog(@"DGCommand: object type cannot be saved to a .plist and will not be retained");
     }
     [self.container setObject:object forKey:key];
 }
